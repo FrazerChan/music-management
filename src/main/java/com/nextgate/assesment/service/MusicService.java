@@ -8,6 +8,8 @@ import com.nextgate.assesment.models.Album;
 import com.nextgate.assesment.repositories.AlbumRepository;
 import com.nextgate.assesment.models.User;
 import com.nextgate.assesment.repositories.UserRepository;
+import java.util.HashMap;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -62,6 +64,17 @@ public class MusicService {
 
     public User addUser(User user){
         return userRepository.save(user);
+    }
+
+    public HashMap<String, Object> searchAlbumsAndSingers(String query){
+        Iterable<Album> albums = albumRepository.findByAlbumLikeOrSingerLike(query, query);
+        Iterable<Singer> singers = singerRepository.findByNameLike(query);
+
+        HashMap<String, Object> hmap = new HashMap<String, Object>();
+        hmap.put("albums", albums);
+        hmap.put("singers", singers);
+
+        return hmap;
     }
 
 }
