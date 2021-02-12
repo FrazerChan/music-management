@@ -9,6 +9,8 @@ import com.nextgate.assesment.models.User;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
 
-    boolean existsByUser(String user);
+    boolean existsByUsername(String username);
+
+    User findByUsername(String username);
 
 }

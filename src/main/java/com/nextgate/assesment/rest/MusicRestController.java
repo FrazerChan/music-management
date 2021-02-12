@@ -1,6 +1,7 @@
 package com.nextgate.assesment.rest;
 
 import com.nextgate.assesment.datatypes.Song;
+import com.nextgate.assesment.service.AuthService;
 import com.nextgate.assesment.service.MusicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,11 +14,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.nextgate.assesment.models.Singer;
 import com.nextgate.assesment.models.Album;
 import com.nextgate.assesment.models.User;
 
 import java.util.HashMap;
+
+import com.nextgate.assesment.service.JwtUserDetailsService;
+import com.nextgate.assesment.jwt.JwtTokenUtil;
+import com.nextgate.assesment.models.JwtRequest;
+import com.nextgate.assesment.models.JwtResponse;
 
 /**
  * A REST controller for managing the music catalogue via the Music service
@@ -30,6 +42,9 @@ import java.util.HashMap;
 @RestController
 public class MusicRestController {
     
+    @Autowired
+    private AuthService authService;
+
     @Autowired
     private MusicService musicSerivce;
 
@@ -87,7 +102,7 @@ public class MusicRestController {
      */
     @GetMapping("users")
     public Iterable<User> users() {
-        return musicSerivce.getAllUsers();
+        return authService.getAllUsers();
     }
 
     /**
@@ -96,7 +111,7 @@ public class MusicRestController {
      */
     @PostMapping(value="add_user")
     public @ResponseBody ResponseEntity<User> addNewUser (@RequestBody User user) {
-        User newUser = musicSerivce.addUser(user);
+        User newUser = authService.addUser(user);
 
         if (newUser == null){
             return new ResponseEntity<>(newUser, HttpStatus.CONFLICT);
@@ -125,5 +140,37 @@ public class MusicRestController {
         HashMap<String, Object> result = musicSerivce.searchAlbumsAndSingers(query);
         return ResponseEntity.ok(result);
     }
+
+    @Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+
+	@Autowired
+	private JwtUserDetailsService userDetailsService;
+
+	@PostMapping("/authenticate")
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+
+		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+
+		final UserDetails userDetails = userDetailsService
+				.loadUserByUsername(authenticationRequest.getUsername());
+
+		final String token = jwtTokenUtil.generateToken(userDetails);
+
+		return ResponseEntity.ok(new JwtResponse(token));
+	}
+
+	private void authenticate(String username, String password) throws Exception {
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+		} catch (DisabledException e) {
+			throw new Exception("USER_DISABLED", e);
+		} catch (BadCredentialsException e) {
+			throw new Exception("INVALID_CREDENTIALS", e);
+		}
+	}
     
 }

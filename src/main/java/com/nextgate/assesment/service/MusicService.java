@@ -6,8 +6,6 @@ import com.nextgate.assesment.models.Singer;
 import com.nextgate.assesment.repositories.SingerRepository;
 import com.nextgate.assesment.models.Album;
 import com.nextgate.assesment.repositories.AlbumRepository;
-import com.nextgate.assesment.models.User;
-import com.nextgate.assesment.repositories.UserRepository;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +26,6 @@ public class MusicService {
 
     @Autowired
     private AlbumRepository albumRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     /**
      * Retrieve a song by Id
@@ -63,18 +58,6 @@ public class MusicService {
             return null;
         }else{
             return albumRepository.save(album);
-        }
-    }
-
-    public Iterable<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    public User addUser(User user){
-        if (userRepository.existsByUser(user.getUser())){
-            return null;
-        }else{
-            return userRepository.save(user);
         }
     }
 

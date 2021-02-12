@@ -12,24 +12,24 @@ public class User {
     @GeneratedValue(strategy=GenerationType.AUTO, generator="native")
     private Integer id;
 
-    private String user;
+    private String username;
 
-    private String pass;
+    private String password;
 
     // Constructors
 
     protected User() {}
 
-    public User (String user, String pass){
-        this.user = user;
-        this.pass = pass;
+    public User (String username, String password){
+        this.username = username;
+        this.password = password;
     }
 
     @Override
     public String toString() {
         return String.format(
-            "Customer[id=%d, user='%s']",
-            id, user);
+            "Customer[id=%d, username='%s']",
+            id, username);
     }
 
     // Getters and setters
@@ -42,20 +42,20 @@ public class User {
         this.id = id;
     }
 
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPass() {
-        return pass;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

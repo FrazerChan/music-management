@@ -83,7 +83,7 @@ public class DataLoader implements ApplicationRunner {
     
     private void parseUser (String[] userDetails){
         User newUser = new User(userDetails[1].trim(), userDetails[2].trim());
-        if (userRepository.existsByUser(userDetails[1].trim())){
+        if (userRepository.existsByUsername(userDetails[1].trim())){
             System.out.println("User already exists");
         }else{
             userRepository.save(newUser);
