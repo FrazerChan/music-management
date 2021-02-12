@@ -18,8 +18,18 @@ public class User {
 
     // Constructors
 
+    /**
+     * Default constructor
+     * 
+     */
     protected User() {}
 
+    /**
+     * Primary constructor
+     * 
+     * @param username the user's username
+     * @param password the user's password
+     */
     public User (String username, String password){
         this.username = username;
         this.password = password;

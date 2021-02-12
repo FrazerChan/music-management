@@ -34,7 +34,6 @@ import com.nextgate.assesment.models.JwtResponse;
 /**
  * A REST controller for managing the music catalogue via the Music service
  *
- * TODO: Add more methods
  *
  * @author nextgate.employee
  */
@@ -150,6 +149,9 @@ public class MusicRestController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
+    /**
+     * POST method to authenticate a user and return a JWT if valid
+     */
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
@@ -163,6 +165,9 @@ public class MusicRestController {
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
 
+    /**
+     * Method to authenticate a user based on credentials or throw an exception
+     */
 	private void authenticate(String username, String password) throws Exception {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));

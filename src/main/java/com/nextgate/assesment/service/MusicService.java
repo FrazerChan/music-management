@@ -37,10 +37,19 @@ public class MusicService {
         return new Song("Test Song");
     }
 
+    /**
+     * Method to get all singers in the database
+     * @return All singers in the database
+     */
     public Iterable<Singer> getAllSingers() {
         return singerRepository.findAll();
     }
 
+    /**
+     * Method to add a new singer to the database
+     * @param singer the new singer
+     * @return The new singer if added, null if singer already exists
+     */
     public Singer addSinger(Singer singer){
         if (singerRepository.existsByNameAndDobAndSexAndCompany(singer.getName(), singer.getDob(), singer.getSex(), singer.getCompany())){
             return null;
@@ -49,10 +58,19 @@ public class MusicService {
         }
     }
 
+    /**
+     * Method to get all albums in the database
+     * @return All albums in the database
+     */
     public Iterable<Album> getAllAlbums() {
         return albumRepository.findAll();
     }
 
+    /**
+     * Method to add a new album to the database
+     * @param album the new album
+     * @return The new album if added, null if album already exists
+     */
     public Album addAlbum(Album album){
         if (albumRepository.existsBySingerAndAlbumAndYearAndCompany(album.getSinger(), album.getAlbum(), album.getYear(), album.getCompany())){
             return null;
@@ -61,6 +79,11 @@ public class MusicService {
         }
     }
 
+    /**
+     * Method to get all singers and albums that match the query either as part of the singers name or the albums name
+     * @param query the query string to match
+     * @return A hash map containing two lists, one of albums and another of singers
+     */
     public HashMap<String, Object> searchAlbumsAndSingers(String query){
         Iterable<Album> albums = albumRepository.findByAlbumLikeOrSingerLikeOrderByAlbumAsc(query, query);
         Iterable<Singer> singers = singerRepository.findByNameLikeOrderByNameAsc(query);

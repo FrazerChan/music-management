@@ -24,8 +24,19 @@ public class Singer {
 
     // Constructors
 
+    /**
+     * Default constructor
+     */
     protected Singer() {}
 
+    /**
+     * Primary constructor
+     * 
+     * @param name singer's name
+     * @param dob singers dob YYYYMMDD
+     * @param sex sex of the singer
+     * @param company company of the singer
+     */
     public Singer (String name, String dob, String sex, String company){
         this.name = name;
         this.dob = dob;

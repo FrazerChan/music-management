@@ -29,6 +29,7 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     private UserRepository userRepository;
 
+    // Path to data file
     private String filepath = "data/ng_music_data.txt";
 
     public void run(ApplicationArguments args) {
@@ -36,14 +37,20 @@ public class DataLoader implements ApplicationRunner {
         loadData();
     }
 
+    /**
+     * Loads data from the specified filepath into the database
+     */
     private void loadData() {
         BufferedReader reader;
 		try {
+            // Read the file line by line until EOF
 			reader = new BufferedReader(new FileReader(filepath));
 			String line = reader.readLine();
 			while (line != null) {
+                // Split line at | character
                 String[] splitLine = line.split("\\|");
 
+                // Select different parse method based on record type
                 if(splitLine[0].equals("A")){
                     parseAlbum(splitLine);
                 }else if(splitLine[0].equals("S")){
@@ -63,6 +70,10 @@ public class DataLoader implements ApplicationRunner {
 		}
     }
 
+    /**
+     * Parses an album and adds it to the database if it does not already exist
+     * @param albumDetails array of strings for each attribute of the album
+     */
     private void parseAlbum (String[] albumDetails){
         Album newAlbum = new Album(albumDetails[1].trim(), albumDetails[2].trim(), albumDetails[3].trim(), albumDetails[4].trim());
         if (albumRepository.existsBySingerAndAlbumAndYearAndCompany(albumDetails[1].trim(), albumDetails[2].trim(), albumDetails[3].trim(), albumDetails[4].trim())){
@@ -72,6 +83,10 @@ public class DataLoader implements ApplicationRunner {
         }
     }
     
+    /**
+     * Parses a singer and adds it to the database if it does not already exist
+     * @param singerDetails array of strings for each attribute of the singer
+     */
     private void parseSinger (String[] singerDetails){
         Singer newSinger = new Singer(singerDetails[1].trim(), singerDetails[2].trim(), singerDetails[3].trim(), singerDetails[4].trim());
         if (singerRepository.existsByNameAndDobAndSexAndCompany(singerDetails[1].trim(), singerDetails[2].trim(), singerDetails[3].trim(), singerDetails[4].trim())){
@@ -81,6 +96,10 @@ public class DataLoader implements ApplicationRunner {
         }
     }
     
+    /**
+     * Parses a user and adds it to the database if it does not already exist
+     * @param userDetails array of strings for each attribute of the user
+     */
     private void parseUser (String[] userDetails){
         User newUser = new User(userDetails[1].trim(), userDetails[2].trim());
         if (userRepository.existsByUsername(userDetails[1].trim())){

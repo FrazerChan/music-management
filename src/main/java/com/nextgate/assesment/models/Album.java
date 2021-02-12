@@ -31,8 +31,19 @@ public class Album {
 
     // Constructors
 
+    /**
+     *  Default constructor
+     */
     protected Album() {}
 
+    /**
+     * Primary constructor
+     * 
+     * @param singer singer of the album
+     * @param album album name
+     * @param year year the album was released
+     * @param company company of the album
+     */
     public Album (String singer, String album, String year, String company){
         this.singer = singer;
         this.album = album;
