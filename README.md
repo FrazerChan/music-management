@@ -12,7 +12,7 @@ At the top of the project run an install to download the relevant dependencies a
 
 <b><i>./mvnw install</b></i>
 
-### Step3 - Install
+### Step3 - Insert Data
 Place your data file <b><i>ng_music_data.txt</b></i> into the <b><i>data</b></i> directory.
 
 ### Step4 - Run
