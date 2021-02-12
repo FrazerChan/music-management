@@ -20,9 +20,9 @@ Ensure an SQL database is up and running with the following conditions:
 
 * The database should be named <b><i>db_music_management</b></i> 
 * There should be a user with:
-** Username <b><i>user0</b></i> 
-** Password <b><i>user0Password</b></i>
-** Granted all privileges
+  * Username <b><i>user0</b></i> 
+  * Password <b><i>user0Password</b></i>
+  * Granted all privileges
 * Running on port <b><i>3306</b></i> 
 
 ### Step5 - Run
