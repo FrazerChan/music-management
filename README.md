@@ -12,8 +12,10 @@ At the top of the project run an install to download the relevant dependencies a
 
 <b><i>./mvnw install</b></i>
 
+### Step3 - Install
+Place your data file <b><i>ng_music_data.txt</b></i> into the <b><i>data</b></i> directory.
 
-### Step3 - Run
+### Step4 - Run
 At the top of the project start spring boot which will run your jar, and any REST endpoints should be available at http://localhost:8080/{METHOD_NAME}
 
 <b><i>./mvnw spring-boot:run</b></i>
