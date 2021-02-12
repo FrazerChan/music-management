@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 import com.nextgate.assesment.models.Singer;
 import com.nextgate.assesment.models.Album;
@@ -46,8 +47,14 @@ public class MusicRestController {
      * @return new singer object
      */
     @PostMapping(value="add_singer")
-    public @ResponseBody Singer addNewSinger (@RequestBody Singer singer) {
-        return musicSerivce.addSinger(singer);
+    public @ResponseBody ResponseEntity<Singer> addNewSinger (@RequestBody Singer singer) {
+        Singer newSinger = musicSerivce.addSinger(singer);
+
+        if (newSinger == null){
+            return new ResponseEntity<>(newSinger, HttpStatus.CONFLICT);
+        }else{
+            return ResponseEntity.ok(newSinger);
+        }
     }
 
     /**
@@ -64,8 +71,14 @@ public class MusicRestController {
      * @return new album object
      */
     @PostMapping(value="add_album")
-    public @ResponseBody Album addNewAlbum (@RequestBody Album album) {
-        return musicSerivce.addAlbum(album);
+    public @ResponseBody ResponseEntity<Album> addNewAlbum (@RequestBody Album album) {
+        Album newAlbum = musicSerivce.addAlbum(album);
+
+        if (newAlbum == null){
+            return new ResponseEntity<>(newAlbum, HttpStatus.CONFLICT);
+        }else{
+            return ResponseEntity.ok(newAlbum);
+        }
     }
 
     /**
@@ -82,8 +95,14 @@ public class MusicRestController {
      * @return new user object
      */
     @PostMapping(value="add_user")
-    public @ResponseBody User addNewUser (@RequestBody User user) {
-        return musicSerivce.addUser(user);
+    public @ResponseBody ResponseEntity<User> addNewUser (@RequestBody User user) {
+        User newUser = musicSerivce.addUser(user);
+
+        if (newUser == null){
+            return new ResponseEntity<>(newUser, HttpStatus.CONFLICT);
+        }else{
+            return ResponseEntity.ok(newUser);
+        }
     }
     
     /**

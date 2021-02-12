@@ -13,7 +13,7 @@ public interface SingerRepository extends CrudRepository<Singer, Integer> {
 
     boolean existsByNameAndDobAndSexAndCompany(String name, String dob, String sex, String company);
 
-    @Query("select u from Singer u where u.name like %?1%")
-    List<Singer> findByNameLike(String nameLike);
+    @Query("select u from Singer u where u.name like %?1% order by u.name asc")
+    List<Singer> findByNameLikeOrderByNameAsc(String nameLike);
 
 }

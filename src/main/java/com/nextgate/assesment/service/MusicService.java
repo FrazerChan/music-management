@@ -47,7 +47,11 @@ public class MusicService {
     }
 
     public Singer addSinger(Singer singer){
-        return singerRepository.save(singer);
+        if (singerRepository.existsByNameAndDobAndSexAndCompany(singer.getName(), singer.getDob(), singer.getSex(), singer.getCompany())){
+            return null;
+        }else{
+            return singerRepository.save(singer);
+        }
     }
 
     public Iterable<Album> getAllAlbums() {
@@ -55,7 +59,11 @@ public class MusicService {
     }
 
     public Album addAlbum(Album album){
-        return albumRepository.save(album);
+        if (albumRepository.existsBySingerAndAlbumAndYearAndCompany(album.getSinger(), album.getAlbum(), album.getYear(), album.getCompany())){
+            return null;
+        }else{
+            return albumRepository.save(album);
+        }
     }
 
     public Iterable<User> getAllUsers() {
@@ -63,12 +71,16 @@ public class MusicService {
     }
 
     public User addUser(User user){
-        return userRepository.save(user);
+        if (userRepository.existsByUser(user.getUser())){
+            return null;
+        }else{
+            return userRepository.save(user);
+        }
     }
 
     public HashMap<String, Object> searchAlbumsAndSingers(String query){
-        Iterable<Album> albums = albumRepository.findByAlbumLikeOrSingerLike(query, query);
-        Iterable<Singer> singers = singerRepository.findByNameLike(query);
+        Iterable<Album> albums = albumRepository.findByAlbumLikeOrSingerLikeOrderByAlbumAsc(query, query);
+        Iterable<Singer> singers = singerRepository.findByNameLikeOrderByNameAsc(query);
 
         HashMap<String, Object> hmap = new HashMap<String, Object>();
         hmap.put("albums", albums);
